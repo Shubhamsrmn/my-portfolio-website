@@ -1,2 +1,2 @@
-the portfolio website of mine.
-the live link is 
+The personal portfolio website
+link - http://github-Shubhamsrmn.github.io/my-portfolio-website
