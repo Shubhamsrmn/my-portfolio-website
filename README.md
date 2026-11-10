@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shubham Nanaware — Portfolio
 
-## Getting Started
+Next.js (App Router) + Tailwind CSS v4. A vintage-newspaper portfolio with scroll-driven story scenes.
 
-First, run the development server:
+## Develop
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Production URL (required)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Set the public origin when building. Canonical URL, `sitemap.xml`, `robots.txt`, Open Graph/Twitter image URLs and
+JSON-LD all derive from it:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+NEXT_PUBLIC_SITE_URL=https://your-domain.com   # no trailing slash
+```
 
-## Learn More
+Optional: `GOOGLE_SITE_VERIFICATION` (Search Console "HTML tag" token). See `.env.example`.
 
-To learn more about Next.js, take a look at the following resources:
+## Deploying (static export to S3 + CloudFront)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The site is a fully static export (`output: "export"`, output in `out/`), so it can be hosted on any static host.
+`scripts/deploy.sh` publishes it to S3 behind CloudFront:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. `cp .deploy.env.example .deploy.env` and fill in your bucket, region, CloudFront distribution ID and site URL.
+   `.deploy.env` is git-ignored, so no infrastructure identifiers are committed.
+2. Sign in to AWS (`aws login` or `aws sso login`).
+3. Preview, then deploy:
 
-## Deploy on Vercel
+   ```bash
+   DRY_RUN=1 scripts/deploy.sh   # shows what would change, touches nothing
+   scripts/deploy.sh             # build, back up the live bucket, upload, prune, invalidate the CDN
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The script backs up the live bucket locally first, uploads hashed assets before HTML (no broken in-between state),
+sets cache headers (immutable for `_next/static`, revalidate for HTML) and invalidates CloudFront.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+After the first deploy: submit `/sitemap.xml` in Google Search Console and Bing Webmaster Tools, and re-check the
+share preview with the LinkedIn Post Inspector (previews are cached per URL).
+
+## Where things live
+
+| What | Where |
+| --- | --- |
+| All copy (experience, projects, skills, links) | `lib/content.ts` |
+| SEO constants + JSON-LD (Person / WebSite / ProfilePage) | `lib/site.ts` |
+| Metadata, viewport | `app/layout.tsx` |
+| Sitemap / robots | `app/sitemap.ts`, `app/robots.ts` |
+| Share image, icons | `app/opengraph-image.png`, `app/twitter-image.png`, `app/icon.png`, `app/apple-icon.png`, `app/favicon.ico` |
+| Resume PDF (linked from the page, listed in the sitemap) | `public/Shubham_Nanaware_Resume.pdf` |
+| Scroll scenes | `components/HorizontalStories.tsx`, `components/CareerStory.tsx`, `components/ScrollMarquee.tsx` |
+
+When the resume changes, update `lib/content.ts` **and** replace the PDF in `public/` (keep the filename so the link and sitemap stay valid).
