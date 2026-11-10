@@ -9,6 +9,8 @@ import { HorizontalStories } from "@/components/HorizontalStories";
 import { CareerStory } from "@/components/CareerStory";
 import { ScrollMarquee } from "@/components/ScrollMarquee";
 import { Parallax } from "@/components/Parallax";
+import { MotionBanner, MotionToggle } from "@/components/MotionControl";
+import { ArrowUpRight } from "@/components/Arrow";
 import { buildJsonLd } from "@/lib/site";
 import { nw } from "@/lib/typography";
 import {
@@ -74,6 +76,7 @@ export default function Home() {
 
       <main id="main" className="pt-14 pb-16 md:pb-0">
         <span id="top" className="block" />
+        <MotionBanner />
         {/* ───────── Masthead ───────── */}
         <section className="max-w-[1400px] mx-auto px-4 md:px-8 pt-6 paper-settle">
           <div className="flex items-center justify-between gap-4 font-mono text-label uppercase tracking-[0.1em] sm:tracking-widest text-ink-muted pb-2">
@@ -133,9 +136,9 @@ export default function Home() {
                 </div>
                 <p className="mt-4 font-editorial text-body flex flex-wrap items-center gap-x-5 gap-y-0">
                   <span className="text-ink-muted italic">Find me on</span>
-                  <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="link-sweep inline-flex items-center min-h-11 px-1 font-bold">LinkedIn ↗</a>
-                  <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="link-sweep inline-flex items-center min-h-11 px-1 font-bold">GitHub ↗</a>
-                  <a href={`mailto:${EMAIL}`} className="link-sweep inline-flex items-center min-h-11 px-1 font-bold">Email ↗</a>
+                  <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="link-sweep inline-flex items-center min-h-11 px-1 font-bold">LinkedIn<ArrowUpRight /></a>
+                  <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="link-sweep inline-flex items-center min-h-11 px-1 font-bold">GitHub<ArrowUpRight /></a>
+                  <a href={`mailto:${EMAIL}`} className="link-sweep inline-flex items-center min-h-11 px-1 font-bold">Email<ArrowUpRight /></a>
                 </p>
               </div>
             </div>
@@ -325,7 +328,7 @@ export default function Home() {
                         </span>
                       </span>
                       <span className="shrink-0 max-[359px]:hidden" aria-hidden="true">
-                        <span className="arrow font-headline text-3xl md:text-4xl">↗</span>
+                        <span className="arrow text-3xl md:text-4xl"><ArrowUpRight className="ml-0 !w-[1em] !h-[1em]" /></span>
                       </span>
                     </a>
                   </Reveal>
@@ -348,6 +351,7 @@ export default function Home() {
           <span>
             © 2026 Shubham Nanaware<span className="whitespace-nowrap"> · Pune, India</span>
           </span>
+          <MotionToggle />
           <span>Built with Next.js, Tailwind CSS &amp; a love for old newspapers.</span>
         </div>
       </footer>

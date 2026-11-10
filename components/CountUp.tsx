@@ -10,7 +10,6 @@ export function CountUp({ to, suffix = "", duration = 1400 }: { to: number; suff
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let raf = 0;
     const io = new IntersectionObserver(

@@ -77,7 +77,7 @@ export function CareerStory({ jobs }: { jobs: Job[] }) {
                       <Label className="text-accent-terracotta">{j.dates}</Label>
                       <h3 className="font-masthead font-black text-name mt-1">{j.company}</h3>
                       <p className="font-editorial text-lede italic mt-2">{j.role}</p>
-                      <p className="font-editorial text-body text-ink-secondary mt-3 max-w-md">{nw(j.note)}</p>
+                      <p className="career-note font-editorial text-body text-ink-secondary mt-3 max-w-md">{nw(j.note)}</p>
                       <ul className="flex flex-wrap gap-2 mt-4" aria-label={`${j.company} links`}>
                         {j.links.map((l) => (
                           <li key={l.label}>
@@ -99,7 +99,7 @@ export function CareerStory({ jobs }: { jobs: Job[] }) {
                     {j.points.map(([title, text], k) => {
                       const on = i < activeJob || (i === activeJob && k <= localBeat);
                       return (
-                        <li key={title} className="beat border-b border-ink-border/30" data-on={on}>
+                        <li key={title} className="beat border-b border-ink-border/30" data-on={on} data-current={i === activeJob && k === localBeat}>
                           <Reveal variant="up" delay={Math.min(k, 3) * 60}>
                             <div className="grid grid-cols-1 sm:grid-cols-[150px_1fr] gap-1 sm:gap-5 py-3 md:py-2.5">
                               <span className="font-mono text-meta font-bold uppercase tracking-wide text-accent-terracotta">{title}</span>
@@ -125,7 +125,8 @@ export function CareerStory({ jobs }: { jobs: Job[] }) {
                   style={{ left: `${(starts[i] / total) * 100}%` }}
                 >
                   <span className="block w-px h-3 bg-ink-primary mb-1" />
-                  {j.dates.split(" – ")[0]} · {j.company}
+                  <span className="tl-date">{j.dates.split(" – ")[0]} · </span>
+                  {j.company}
                 </span>
               ))}
               <span className="absolute right-0 top-7 font-mono text-label uppercase tracking-wide text-ink-muted">

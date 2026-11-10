@@ -42,9 +42,18 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
+/**
+ * Runs before first paint: decides html[data-motion] = "full" | "reduced".
+ * Priority: visitor's saved choice > the device's "Reduce Motion" setting > full.
+ */
+const MOTION_INIT = `(function(){try{var s=localStorage.getItem("motion");var r=window.matchMedia("(prefers-reduced-motion: reduce)").matches;document.documentElement.dataset.motion=(s==="full"||(s!=="reduced"&&!r))?"full":"reduced"}catch(e){document.documentElement.dataset.motion="full"}})();`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${fontVariables} h-full antialiased`}>
+    <html lang="en" className={`${fontVariables} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: MOTION_INIT }} />
+      </head>
       <body className="min-h-full flex flex-col font-editorial bg-paper-canvas text-ink-primary selection:bg-ink-primary selection:text-paper-canvas">
         <noscript>
           <style>{`.reveal{opacity:1!important;transform:none!important;clip-path:none!important}`}</style>

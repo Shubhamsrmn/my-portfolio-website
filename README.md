@@ -40,6 +40,14 @@ sets cache headers (immutable for `_next/static`, revalidate for HTML) and inval
 After the first deploy: submit `/sitemap.xml` in Google Search Console and Bing Webmaster Tools, and re-check the
 share preview with the LinkedIn Post Inspector (previews are cached per URL).
 
+## Motion preference
+
+`<html data-motion="full|reduced">` is set before first paint (inline script in `app/layout.tsx`): the visitor's saved
+choice wins, otherwise the device's **Reduce Motion** setting, otherwise full. Reduced mode removes movement (slides,
+spin, parallax, pinned scenes) but keeps gentle fades. Devices with Reduce Motion on see a one-line banner with a
+"Turn animations on" button, and the footer always has an Animations On/Off toggle (`components/MotionControl.tsx`).
+Pinned scenes have a desktop layout and a compact phone layout; both live in the "Pinned stage" block of `app/globals.css`.
+
 ## Where things live
 
 | What | Where |

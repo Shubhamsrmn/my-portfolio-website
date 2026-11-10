@@ -9,14 +9,13 @@ export function Parallax({ children, speed = 0.08, className = "" }: { children:
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     // Only drift when the element sits beside other content (wide layouts). In a stacked layout the
     // shift would push it over the content above it.
     const wide = window.matchMedia("(min-width: 1024px)");
     let raf = 0;
     const update = () => {
       raf = 0;
-      if (!wide.matches) {
+      if (!wide.matches || document.documentElement.dataset.motion === "reduced") {
         el.style.transform = "";
         return;
       }

@@ -32,7 +32,10 @@ export function useStageProgress(
       const vh = window.innerHeight;
       let p: number;
       if (mode === "stage") {
-        const total = r.height - vh;
+        // distance the pinned box travels = section height minus the box's own height. Using the box
+        // (100svh) rather than innerHeight keeps progress steady while mobile browser bars show/hide.
+        const box = el.firstElementChild as HTMLElement | null;
+        const total = r.height - (box ? box.offsetHeight : vh);
         p = total > 0 ? -r.top / total : 0;
       } else {
         p = (vh - r.top) / (vh + r.height);
