@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+# deployment config (bucket / distribution IDs): never commit
+.deploy.env
 
 # vercel
 .vercel

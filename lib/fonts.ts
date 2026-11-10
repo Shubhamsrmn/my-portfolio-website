@@ -11,8 +11,8 @@ import {
  * Variable names use the `--nf-*` prefix to decouple Next.js font loader injection
  * from Tailwind CSS theme tokens (`--font-*`), completely preventing circular variable resolution.
  *
- * 1. Masthead Serif: Bodoni Moda (variable 400-900, display/masthead, non-critical, preload: false)
- * 2. Headline Condensed: Bebas Neue (weight 400, impactful condensed titles, non-critical, preload: false)
+ * 1. Masthead Serif: Bodoni Moda (variable 400-900, masthead = LCP element, preload: true)
+ * 2. Headline Condensed: Bebas Neue (weight 400, hero headline, preload: true)
  * 3. Narrative Editorial: Newsreader (normal & italic, primary longform copy, critical path, preload: true)
  * 4. Technical Monospace: JetBrains Mono (technical/data/code, non-critical, preload: false)
  *
@@ -23,7 +23,7 @@ export const fontMasthead = Bodoni_Moda({
   subsets: ["latin"],
   display: "swap",
   variable: "--nf-masthead",
-  preload: false,
+  preload: true,
 });
 
 export const fontHeadline = Bebas_Neue({
@@ -31,7 +31,7 @@ export const fontHeadline = Bebas_Neue({
   subsets: ["latin"],
   display: "swap",
   variable: "--nf-headline",
-  preload: false,
+  preload: true,
 });
 
 export const fontEditorial = Newsreader({
